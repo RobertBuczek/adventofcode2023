@@ -2,14 +2,12 @@ use std::collections::HashMap;
 #[derive(Debug)]
 struct Word {
     string_representation: String,
-    index: i8,
 }
 
 impl Word {
-    fn new_from_description(description: Option<String>, index: usize) -> Self {
+    fn new_from_description(description: Option<String>) -> Self {
         Word {
             string_representation: description.unwrap_or_else(String::new),
-            index: index as i8,
         }
     }
 }
@@ -47,7 +45,7 @@ fn process_input_lines(input_line: &str, word_to_digit: &HashMap<String, u32>) -
         for &word in &search_words {
             let slice = &input_line[index..];
             if slice.starts_with(word) {
-                container.add_word(Word::new_from_description(Some(word.to_string()), index));
+                container.add_word(Word::new_from_description(Some(word.to_string())));
             }
         }
 
@@ -59,7 +57,7 @@ fn process_input_lines(input_line: &str, word_to_digit: &HashMap<String, u32>) -
                     None
                 }
             }) {
-                container.add_word(Word::new_from_description(Some(word), index));
+                container.add_word(Word::new_from_description(Some(word)));
             }
         }
     }
