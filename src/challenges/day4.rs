@@ -78,19 +78,20 @@ fn check_game_posibility(input: &InputGame) -> usize {
 
 fn exe1(input: Vec<&str>) -> usize {
     let inout = parse_input(&input);
-    let mut result = 0;
+    let mut result: usize = 0;
 
-    for f in inout.iter() {
-        let e = check_game_posibility(f);
-        if e == 0 {
-            result += 0;
-        } else {
-            let mut sum = 1;
-            for _ in 0..e - 1 {
+    for game in inout.iter() {
+        let win_count = check_game_posibility(game);
+        let mut sum = 0;
+    
+        if win_count > 0 {
+            sum = 1;
+            for _ in 1..win_count {
                 sum *= 2;
             }
-            result += sum;
         }
+    
+        result += sum;
     }
 
     result
@@ -101,9 +102,9 @@ fn exe2(input: Vec<&str>) -> usize {
     let mut factors: [usize; 256] = [1usize; 256];
     let mut sum = 0;
 
-    for (i, ele) in input.into_iter().enumerate() {
+    for (i, game) in input.into_iter().enumerate() {
         let factor: usize = factors[i];
-        let win_count = check_game_posibility(&ele);
+        let win_count = check_game_posibility(&game);
         for i in i..i + win_count {
             factors[i + 1] += factor
         }
@@ -175,7 +176,6 @@ mod tests {
 
         let result = exe2(input.iter().map(String::as_str).collect());
 
-        //to low
         assert_eq!(result, 7013204);
     }
 }
